@@ -1,32 +1,38 @@
 const myModel = document.querySelectorAll('.modal')
+const pool = require('./db');
 
 async function signup(e) {
-	e.preventDefault()
-	const email = document.querySelector('#signupemail')
-	const password = document.querySelector('#signuppassword')
-
+	e.preventDefault();
+	const email = document.querySelector('#signupemail');
+	const password = document.querySelector('#signuppassword');
 	try {
-		const result = await firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
-
-		M.toast({ html: `welcome ${result.user.email}`, classes: "green" })
-		console.log(result)
+		const result = await firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
+		M.toast({ html: `welcome ${result.user.email}`, classes: "green" });
+		await saveUserToDatabase(result.user.uid, email.value, password.value);
 	} catch (err) {
-		console.log(err)
-		M.toast({ html: err.message, classes: "red" })
+		console.log(err);
+		M.toast({ html: err.message, classes: "red" });
 	}
-	email.value = ""
-	email.password = ""
-	M.Modal.getInstance(myModel[0]).close()
-
-	// Save to PostgreSQL
-	const query = 'INSERT INTO users(id, email) VALUES($1, $2)';
-	const values = [userRecord.uid, email];
-
-	client.query(query, values)
-		.then(res => console.log('User saved to PostgreSQL'))
-		.catch(err => console.error('Error saving to PostgreSQL', err.stack));
-
+	email.value = "";
+	password.value = "";
+	M.Modal.getInstance(myModel[0]).close();
 }
+
+async function saveUserToDatabase(uid, email, password) {
+	try {
+		const userRecord = await pool.query(
+			'INSERT INTO users (uid, email, password) VALUES ($1, $2, $3)',
+			[uid, email, password]
+		);
+		console.log(userRecord);
+	} catch (err) {
+		console.log(err);
+		throw err;
+	}
+}
+
+module.exports = { signup, login, logout, saveUserToDatabase };
+
 async function login(e) {
 	e.preventDefault()
 	const email = document.querySelector('#loginEmail')
@@ -42,7 +48,7 @@ async function login(e) {
 		M.toast({ html: err.message, classes: "red" })
 	}
 	email.value = ""
-	email.password = ""
+	password.value = ""
 	M.Modal.getInstance(myModel[1]).close()
 }
 
@@ -58,17 +64,3 @@ firebase.auth().onAuthStateChanged((user) => {
 		M.toast({ html: "signout success", classes: "green" })
 	}
 });
-
-const { Client } = require('pg');
-
-const client = new Client({
-	user: 'postgres',
-	host: '34.173.193.184',
-	database: 'loginpagedb',
-	password: 'LoginPage@123',
-	port: 5432, // Default PostgreSQL port
-});
-
-client.connect()
-	.then(() => console.log('Connected to PostgreSQL'))
-	.catch(err => console.error('Connection error', err.stack));
