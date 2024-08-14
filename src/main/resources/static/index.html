@@ -139,8 +139,9 @@
   firebase.initializeApp(firebaseConfig);
 </script>
 	<script src="auth.js"></script>
+	<script src="db.js"></script>
 	<script>
- 		const { saveUserToDatabase } = require('./auth');
+  		const { signup, login, logout, saveUserToDatabase } = require('./auth');
 	</script>
 </body>
 </html>
