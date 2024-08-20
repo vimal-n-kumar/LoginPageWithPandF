@@ -10,8 +10,6 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-
-
 </head>
 <body>
 	<nav>
@@ -20,7 +18,7 @@
 			<ul id="nav-mobile" class="right">
 				<li id="loginli"><a class="modal-trigger" href="#modal2">Login</a></li>
 				<li id="signupli"><a class="modal-trigger" href="#modal1">Signup</a></li>
-				<li id="logoutli"><a onclick="logout()">Logout</a></li>
+				<!-- <li id="logoutli"><a onclick="logout()">Logout</a></li> -->
 			</ul>
 		</div>
 	</nav>
@@ -34,13 +32,8 @@
 				<button class="btn waves-effect #fbc02d yellow darken-2"
 					type="submit">submit</button>
 			</form>
-			<button class="btn waves-effect blue" onclick="loginWithGoogle()">Login
-				with google</button>
-
-
 		</div>
 	</div>
-
 	<!--login Modal -->
 	<div id="modal2" class="modal">
 		<div class="modal-content">
@@ -51,10 +44,6 @@
 				<button class="btn waves-effect #fbc02d yellow darken-2"
 					type="submit">submit</button>
 			</form>
-			<button class="btn waves-effect blue" onclick="loginWithGoogle()">Login
-				with google</button>
-
-
 		</div>
 	</div>
 	<!--edit profile -->
@@ -78,41 +67,15 @@
 					name="specialty" placeholder="speciality" /> <input type="text"
 					name="prorfolioUrl" placeholder="protfolio url" /> <input
 					type="text" name="experience" placeholder="experience" />
-
 				<button class="btn waves-effect #fbc02d yellow darken-2"
 					type="submit">submit</button>
 			</form>
-
-
-
 		</div>
 	</div>
-
-
 	<div class="center">
-		<h1>your account details</h1>
-
+		<h3>Select options as Login or Signup to continue</h3>
 		<div class="userDetails"></div>
 	</div>
-
-	<table id="table" style="display: none;">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Email</th>
-				<th>Phone</th>
-				<th>speciality</th>
-				<th>ex</th>
-				<th>portfolio</th>
-			</tr>
-		</thead>
-
-		<tbody id="tbody">
-
-		</tbody>
-	</table>
-
-
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script>

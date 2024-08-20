@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-wrapper #fbc02d yellow darken-2">
+        <a href="#" class="brand-logo">User Details</a>
+        <ul id="nav-mobile" class="right">
+            <!-- <li><a href="index.html">Home</a></li> -->
+            <li><a onclick="logout()">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Your Account Details</h1>
+    <div id="userDetails" class="card-panel"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCVNd0jM090QqgvvNMmdO8T_gKkQZ17HxE",
+        authDomain: "buoyant-program-432509-g6.firebaseapp.com",
+        projectId: "buoyant-program-432509-g6",
+        storageBucket: "buoyant-program-432509-g6.appspot.com",
+        messagingSenderId: "221999848561",
+        appId: "1:221999848561:web:bd4ee3766e3b0d1d0c4fd0"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Function to get user details
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            // User is signed in
+            const userInfo = `
+                <h5>Email: ${user.email}</h5>
+                <h5>UID: ${user.uid}</h5>
+            `;
+            document.getElementById('userDetails').innerHTML = userInfo;
+        } else {
+            // No user is signed in
+            window.location.href = "index.html"; // Redirect to login page
+        }
+    });
+
+    function logout() {
+        firebase.auth().signOut().then(function() {
+            window.location.href = "index.html"; // Redirect to login page
+        });
+    }
+</script>
+
+</body>
+</html>
